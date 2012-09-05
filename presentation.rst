@@ -50,9 +50,12 @@ What is a Web Framework
 - A web framework receives a request, calls user code in order to return a
   response.  Everything else is a bonus.
 
-.. my job during this talk is mostly to regurgitate what I know about Django
-   and compare it to my expectations of what a web framework should do and
-   be and how it should do those things.
+.. if you've written such a system, congratulations, you've written a web
+   framework.  don't necessarily need to have an orm or a form system or csrf
+   protection or templating, etc to be called a web framework.  the bar is
+   very low.  my job during this talk is mostly to regurgitate what I know
+   about Django and compare it to my expectations of what a web framework
+   should do and be and how it should do those things.
 
 .. image:: throwandcatch.jpg
    :align: center
@@ -66,8 +69,8 @@ Django Does a Lot Of Things Right
 
 - If I had just come to Python, I'd probably be using it.
 
-.. if i had been in a cryogenic freeze for the past 13 years, when I woke up
-   I'd get obsessed with Django instead of getting obsessed with Zope.
+.. if i had been in a cryogenic freeze for the past 13 years it would be my
+   intro to Python instead of Zope.
 
 .. image:: gettingitright.jpg
    :align: center
@@ -77,7 +80,7 @@ Django Docs Do It Right
 
 .. primary reason I'd be using it is because of the great docs.
 
-- Django docs broke the Python documentation curve.
+- Django docs raised the Python documentation bar.
 
 .. i devoured zope's "docs" (maillist posts printed out) with great gusto.
    We're in such a better place today than we were then.
@@ -111,13 +114,15 @@ Django Defaults Do It Right
 Django Views Do It Right
 ------------------------
 
-.. view functions have a simple model... passed a request, return a response.
-   Quibbles about how templating and dispatching is handled, but for the most
-   part it's workable.  Benchmarks: surprised at how well Django does.
-
 - No magical globals or threadlocals.
 
+.. view functions have a simple model... passed a request, return a response.
+   Quibbles about how templating and dispatching is handled, but for the most
+   part it's workable.  
+
 - Django view lookup and execution is very fast.
+
+.. Benchmarks: surprised at how well Django does.
 
 .. image:: nomagic.jpg
    :align: center
@@ -154,8 +159,9 @@ Django Terminology Does It Right
 .. no idea who first came up with the idea that request/response web
    frameworks have anything to do with the MVC pattern defined via smalltalk
    in the 1980s.  Arguments about which web frameworks are "more MVC" than
-   others hilarious, completely miss the point.  Django authors were smart
-   enough to know how crazy that was.  
+   others hilarious, completely miss the point.  Like arguing which sweater
+   is more OSHA compliant.  Django authors were smart enough to know how
+   crazy that was.
 
 - Arguments about how a web framework implements "MVC" are usually
   distractions.
@@ -188,14 +194,14 @@ So WTF?
    They really don't make much difference to folks just getting started with
    web programming or just getting started with Python.  The more you know,
    the less satisfied you are; ignorance would be bliss.  Remember I started
-   with Zope so it proves I had almost no taste.  But you get pickier as time
-   goes on; you recontextualize features in the light of new knowledge and
-   things your framework did for you that you thought were so great at the
-   start sometimes start to look like liabilities.  You might be able to get
-   things done more quickly if it did a little less, and what remained it did
-   better.  E.g. you might not want to use a relational database, or you
-   might want to use a different templating system, or you might want to do
-   security differently, or you might not need the overhead of some
+   with Zope, so it proves I had almost no taste.  But you get pickier as
+   time goes on; you recontextualize features in the light of new knowledge
+   and things your framework did for you that you thought were so great at
+   the start sometimes start to look like liabilities.  You might be able to
+   get things done more quickly if it did a little less, it did those fewer
+   things better.  E.g. you might not want to use a relational database, or
+   you might want to use a different templating system, or you might want to
+   do security differently, or you might not need the overhead of some
    middleware, or you might not want to pay the price of the ORM, or you want
    better configuration and extensibility, or whatever.  Familiarity breeds
    contempt.
@@ -211,14 +217,20 @@ What is Pyramid
   view lookup and execution, HTTP responses, middleware.
 
 - Pyramid is a corner of a corner of Django, magnified.  It handles view
-  lookup and execution and provides related convenience APIs.
+  lookup and execution, templating, internationalization, and provides
+  related convenience APIs.
+
+- It has no built-in form generation system.  It does not prefer any
+  particular persistence system.  It does not ship with an admininstrative
+  application.
 
 What Is Pyramid (Cont'd)
 ------------------------
 
-- Pyramid is independent of any particular peristence system.  It has no
-  built-in form generation system.  It does not prefer any particular
-  templating system.  It does not ship with an admininstrative application.
+- Built for extensibility and for composition of larger systems.
+
+.. Pyramid is maybe 10K LOC, of which maybe 4K is a configuration system that
+   allows for composing larger systems from smaller ones.
 
 - Something like Pyramid could be used to build something like Django.
 
@@ -228,40 +240,17 @@ How does Pyramid Relate to Pylons
 .. image::  Diagram1.png
    :align: center
 
+.. not really going to try to explain this because...
+
 Might As Well Be
 ----------------
 
 .. image::  wiring.jpg
    :align: center
 
-Pylons Project
---------------
-
-- Project lead consolidation decision.
-
-- Attempt to get Pylons, TurboGears and ``repoze.bfg`` communities rowing in
-  the same direction.
-
-- Pylons 1.x web framework shifted into “legacy” status.  Maintained
-  indefinitely.
-
-- New development: Pyramid and related.
-
-- Turbogears has gone their own direction.
-
-Is Pyramid a Microframework?
-----------------------------
-
-- Pyramid is sort of microframework-like.  You can write a Pyramid
-  application in a single file.
-
-- Self-identifying microframeworks tend to suggest application development
-  patterns to its users which promote convenience over explicitness.  Pyramid
-  for better or worse does not do this, because it needs to be useful in
-  larger systems where these patterns can lead to extensibility problems.
-
-- In reality, "microframework" is a marketing term, not a technical term, so
-  it kinda doesn't matter.
+.. Pyramid is a Pylons project (branding).  There is about as much code in
+   "The Pylons Project" as exists in Django core.  ~ 250 contributors, oldest
+   code is about 6 years old.
 
 Small Pyramid Program
 ----------------------
@@ -283,31 +272,88 @@ Small Pyramid Program
      server = make_server('0.0.0.0', 8080, app)
      server.serve_forever()
 
+Is Pyramid a Microframework?
+----------------------------
+
+- Pyramid is sort of microframework-like.  You can write a Pyramid
+  application in a single file.
+
+- Self-identifying microframeworks tend to suggest application development
+  patterns to its users which promote convenience over explicitness.  Pyramid
+  for better or worse does not do this, because it aims to be useful in
+  larger systems where these patterns can lead to extensibility problems.
+
+- In reality, "microframework" is a marketing term, not a technical term, so
+  it kinda doesn't matter.
+
 .. Django application is never going to be this small.  Seen people post blog
    entries about how you can use Django like this, but it's always just kinda
-   unsat.  This is great for bug reproduction.  It's also good for very tiny
-   applications, but I very rarely write those.
+   unsat.  Single-file apps great for bug reproduction.  Also good for very
+   tiny applications, but I very rarely personally write those.
 
-Larger Pyramid Systems
-----------------------
+Scaffolding (Larger Apps)
+-------------------------
 
-- Most people use "scaffolds" to generate multifile projects.
+- Most people use a "scaffold" to generate a multifile project instead of
+  starting one from scratch.
 
-- Scaffolds generate code that can generate a Python *distribution*
-  (something you can credibly upload to PyPI).
+- ``pcreate -s alchemy myproj`` or ``pcreate -s starter myproj``
+
+- Generated code depends on some combination of Pyramid, Pyramid plugins, and
+  other third-party libraries and frameworks.
+
+- Scaffolds are where opinions live (e.g. SQLAlchemy + Mako vs. MongoDB +
+  Jinja2).  They can and are distributed independently via PyPI.
+
+- ``pcreate`` generates code that you can use can generate a Python
+  *distribution* (something you can credibly upload to PyPI).
+
+Pyramid Friends
+---------------
+
+- Colander/Deform: form handling.
+
+- SQLAlchemy: SQL database connectivity and querying.
+
+- Pyramid-specific add-ons like ``pyramid_debugtoolbar``, ``pyramid_mailer``,
+  ``pyramid_zodbconn``, ``pyramid_socketio``, ``pyramid_mongodb``, and so
+  forth.
+
+- The typical Pyramid application makes use of some combination of add-ons.
+
+Bindings Packages
+-----------------
+
+A more generic package is specialized for convenient use under Pyramid via
+use of a bindings package.
+
+- ``deform`` + ``pyramid_deform``.
+
+- ``repoze.who`` + ``pyramid_who``.
+
+Higher Level Frameworks
+-----------------------
+
+- ``ptah``
+
+- ``kotti``
+
+- ``poolyx``
+
+- ``substanced``
+
+- These are more like Django than Pyramid is like Django.
 
 Pyramid and Python 3
 --------------------
 
-- Pyramid's current release (1.3) supports Python 3.2+ (as well as Python 2.6
-  and 2.7).
+- Pyramid's current release (1.3) supports Python 2.6, 2.7, 3.2, and 3.3.
 
 - Most existing add-ons already ported.  When feasible, we port add-on
-  dependencies (``beaker``, ``WebOb``, ``zope.*`` packages).
+  dependencies too.
 
 - We have a committment to Python 3.  It involves lots of whining and
   bitching.
-
 
 I'm No Genius
 -------------
@@ -315,11 +361,11 @@ I'm No Genius
 - Pyramid does things wrong.  Many parts of Pyramid make me cringe.
   https://github.com/Pylons/pyramid/wiki/Mistakes
 
-- The grass is always greener.
+.. much like you guys, we don't want to break people's working code.
+   Frameworks are one-strike-and-your're-out.
 
 .. image:: urinals.jpg
    :align: center
-
 
 Pyramid Docs
 ------------
@@ -343,64 +389,20 @@ Docs Pain
   its docs is due to poorly documented dependencies (setuptools).  We need to
   redocument subsystems "in context", for better or worse.  (kill me now?)
 
-Docs Pain (cont'd)
-------------------
-
-- Some pain points are due to an audience mismatch; narrative documentation
-  assumes people know "Python" *and* "the web".  They often need remedial
-  help in one or both, which the docs don't provide.
-
-- "Chipin" project raised ~$5K for documentation overhaul.
-
-Pyramid Friends
----------------
-
-- Colander/Deform: form handling.
-
-- SQLAlchemy: SQL database connectivity and querying.
-
-- Pyramid-specific add-ons like ``pyramid_mailer``, ``pyramid_zodbconn``,
-  ``pyramid_socketio``, ``pyramid_mongodb``, and so forth.
-
-- The typical Pyramid application makes use of some combination of add-ons.
-
-Scaffolding
------------
-
-- A scaffold renders a project.  A project is installable like any other
-  setuptools distribution (it has a ``setup.py``, etc).
-
-- The project depends on some combination of Pyramid, Pyramid plugins, and
-  other third-party libraries and frameworks.
-
-- ``zodb``, ``alchemy`` and ``starter`` scaffolds provided by Pyramid itself.
-  Others are contributed to PyPI by third parties.
-
-Bindings Packages
------------------
-
-A more generic package is specialized for convenient use under Pyramid via
-use of a bindings package.
-
-- ``deform`` + ``pyramid_deform``.
-
-- ``repoze.who`` + ``pyramid_who``.
-
 - 2X documentation burden: document once in general package docs, document
   again in bindings docs.  That's no fun.
 
 - But this will happen anyway if your code is popular (Celery).
 
-Higher Level Frameworks
------------------------
+Docs Pain (cont'd)
+------------------
 
-- ``ptah``
+- Some pain points are due to an audience mismatch; narrative documentation
+  assumes people know Python and the web.  They often need remedial help in
+  one or both, which the docs don't provide.
 
-- ``kotti``
-
-- ``poolyx``
-
-- ``substanced``
+- "Chipin" project raised ~$5K for documentation overhaul.  Trying to find a
+  new editor for that project now, if you know anyone.
 
 Packaging Is Like a Blast Shield
 --------------------------------
@@ -570,9 +572,8 @@ Community
 
 - It's growing.
 
-- Your success is our success.  I'd be very pleased to have Pyramid be
-  considered the #2 Python web framework (at least for "Python people")
-  forever.
+- Your success is our success.  I'm satisfied to have Pyramid in a fight for
+  the #2 Python web framework spot forever.
 
 Collaboration (Low-Level)
 -------------------------
