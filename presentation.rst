@@ -136,6 +136,8 @@ Django Forms Do It Right
 
 - Decoupling of models from forms.
 
+..
+
 - Optional recoupling via modelforms.
 
 .. image:: as400_sign_on.gif
@@ -144,12 +146,10 @@ Django Forms Do It Right
 Django Extensibility Does It Right
 ----------------------------------
 
+- Replaceable backends for authentication and storage, etc.
+
 .. Thriving third-party plugin environment.  Major quibbles about
    extensibility, but people make this part of Django work for them.
-
-- Replaceable backends for authentication.
-
-- Replaceable backends for storage.
 
 - Encourages an environment of plugins at different levels.
 
@@ -220,6 +220,10 @@ What Is Pyramid (Cont'd)
 
 - Something like Pyramid could be used to build something like Django.
 
+..
+
+- Pyramid's current release (1.3) supports Python 2.6, 2.7, 3.2, and 3.3.
+
 Small Pyramid Program
 ----------------------
 
@@ -253,8 +257,8 @@ Is Pyramid a Microframework?
   useful in larger systems where these patterns can lead to extensibility
   problems.
 
-- In reality, "microframework" is a marketing term, not a technical term, so
-  it kinda doesn't matter.
+.. In reality, "microframework" is a marketing term, not a technical term, so
+   it kinda doesn't matter.
 
 .. examples: a "route weighting" scheme that guesses what route ordering
    should be or route ordering defined by view function definition order.
@@ -277,55 +281,21 @@ Scaffolding (Larger Apps)
 - Generated code depends on some combination of Pyramid, Pyramid plugins, and
   other third-party libraries and frameworks.
 
+..
+
+- ``pcreate`` generates code that you can use to generate a Python
+  *distribution* (something you can credibly upload to PyPI).
+
 .. sourcecode:: text
 
    pcreate -s alchemy myproject
 
-Scaffolding (Cont'd)
---------------------
-
-- Scaffolds are where opinions live (e.g. SQLAlchemy + Mako vs. MongoDB +
-  Jinja2).  They can be and are distributed independently via PyPI.
 
 .. It's turtles all the way down.  Pyramid is a Python distribution,
    scaffolds can be distributed as distributions, a Pyramid application is a
    Python distribution, etc.
 
-- ``pcreate`` generates code that you can use to generate a Python
-  *distribution* (something you can credibly upload to PyPI).
-
-Pyramid Friends
----------------
-
-- Colander/Deform: form handling.
-
-..
-
-- SQLAlchemy: SQL database connectivity and querying.
-
-..
-
-- Pyramid-specific add-ons like ``pyramid_debugtoolbar``, ``pyramid_mailer``,
-  ``pyramid_zodbconn``, ``pyramid_socketio``, ``pyramid_mongodb``, and so
-  forth.
-
-..
-
-- The typical Pyramid application makes use of some combination of add-ons.
-
-Bindings Packages
------------------
-
-A more generic package is specialized for convenient use under Pyramid via
-use of a bindings package.
-
-- ``deform`` + ``pyramid_deform``.
-
-- ``repoze.who`` + ``pyramid_who``.
-
-- ``pyramid_celery`` + ``Celery``
-
-Higher Level Frameworks
+Higher-Level Frameworks
 -----------------------
 
 .. sourcecode:: text
@@ -338,43 +308,9 @@ Higher Level Frameworks
 
                     substanced
 
-- These are more like Django than Pyramid is like Django.  They each have an
-  admin interface and make choices about what type of persistence system will
-  be best supported.
-
-Pyramid and Python 3
---------------------
-
-- Pyramid's current release (1.3) supports Python 2.6, 2.7, 3.2, and 3.3.
-
-..
-
-- Most existing add-ons already ported.  When feasible, we port add-on
-  dependencies too.
-
-..
-
-- We have a commitment to Python 3.  It involves lots of whining and
-  bitching.
-
-Pyramid Docs
-------------
-
-- Culture of documentation (if it's not documented, it's broken).  ~800
-  printed pages of narrative and API documentation, plus a few hundred pages
-  of "cookbook" material.
-
-..
-
-- Some pain points are due to an audience mismatch.
-
-.. narrative documentation assumes people know Python and the web.  They
-   often need remedial help in one or both, which the docs don't provide.
-
-- But other pain points people experience when trying to learn Pyramid from
-  its docs is due to poorly documented dependencies (setuptools).
-
-.. we need to redocument subsystems "in context", for better or worse.
+These are more like Django than Pyramid is like Django.  They each have an
+admin interface and make choices about what type of persistence system will
+be best supported.
 
 I'm No Genius
 -------------
@@ -425,23 +361,19 @@ Django Avoids Setuptools (2)
 Django Avoids Setuptools (3)
 -----------------------------
 
-- Django's defacto avoidance of setuptools is understandable.  Packaging
-  Django into multiple, independently useful subpackages would obscure the
-  landscape and introduce conceptual load for new users.  More work for core
-  developers.  Who will pay?
-
-Django Avoids Setuptools (4)
------------------------------
-
 - But ignoring Python packaging issues isn't helping to improve them.  Python
   packaging and distribution needs you very badly.  We all carry the support
   load of users new to Python who come in via Django.
 
-..
+.. narrative documentation assumes people know Python and the web.  They
+   often need remedial help in one or both, which the docs don't provide.
 
 - Fewer documentation issues to cope with by ignoring existing tools and
   conventions, but contributing to docs for setuptools and/or recommending
   setuptools and virtualenv to new users would float all boats.
+
+.. although we need to redocument subsystems "in context", for better or
+   worse.
 
 Subclassing Is Convenient
 -------------------------
@@ -452,12 +384,8 @@ Subclassing Is Convenient
 
 - But offering extensibility via subclassing is often a poorer choice than
   offering extensibility via composition and very explicit interfaces.
-
-Subclassing Is Convenient (Cont'd)
-----------------------------------
-
-- Why?  People begin depending upon the implementation details of the classes
-  you tell them to subclass.
+  People begin depending upon the implementation details of the classes you
+  tell them to subclass.
 
 .. Unless you're uncommonly clear about what the API of the superclass is,
    and the social contract to use nothing else but the documented API exists,
@@ -468,7 +396,7 @@ Subclassing Is Convenient (Cont'd)
   figuring out how the thing works can be an exercise in pain and multiple
   editor windows.
 
-Pyramid "Class Based Views"
+Pyramid "Class-Based Views"
 ---------------------------
 
 .. sourcecode:: python
@@ -481,11 +409,11 @@ Pyramid "Class Based Views"
 
        @view_config(route_name='fred')
        def thisnamedoesntmatter(self):
-           request.response.body = 'OK'
+           request.response.body = 'fred'
            return request.response
 
-Pyramid "Class-Based Views"
-----------------------------
+Pyramid "Class-Based Views" (2)
+-------------------------------
 
 Framework effectively does when the route named ``fred`` is matched:
 
@@ -500,6 +428,29 @@ the view configuration statements, or same work can be done imperatively.
    engineered for (fear of someone creating an instance at module scope and
    trying to use it as a view).
 
+Pyramid "Class-Based Views" (3)
+-------------------------------
+
+.. sourcecode:: python
+
+   from pyramid.views import view_config
+
+   class Foo(object):
+       def __init__(self, request):
+           self.request = request
+
+       @view_config(route_name='fred')
+       def thisnamedoesntmatter(self):
+           request.response.body = 'fred'
+           return request.response
+
+       @view_config(route_name='bob')
+       def doesntmattereither(self):
+           request.response.body = 'bob'
+           return request.response
+           
+
+
 Globals are Convenient
 ----------------------
 
@@ -513,8 +464,8 @@ Globals are Convenient
   ``DJANGO_SETTINGS_MODULE`` envvar necessitates putting settings import
   at function scope.  This is a tip-off that settings aren't-really-global.
 
-Globals Are Convenient
-----------------------
+Globals Are Convenient (Cont'd)
+-------------------------------
 
 Pyramid configuration phase:
 
@@ -532,7 +483,20 @@ Instead of importing them, elsewhere in the code people do e.g.:
    def someview(request):
        mailhost = request.registry.settings['mailhost']
 
-Module-Scope Work Is Convenient (1)
+Module-Scope Work Is Convenient
+-----------------------------------
+
+From Django tutorial, at module scope:
+
+.. sourcecode:: python
+
+  from django.contrib import admin
+  admin.autodiscover()
+
+``autodiscover()`` called for its side effects.  Presumably mutates a global
+(``admin``).
+
+Module-Scope Work Is Convenient (2)
 -----------------------------------
 
 - These things can be done at module scope without concern:
@@ -551,20 +515,11 @@ Module-Scope Work Is Convenient (1)
 .. Everything else is at least suspect.  Test runners and other code scanners
    can import with abandon, and side effects are often undesirable.
 
-Module-Scope Work Is Convenient (2)
------------------------------------
-
-From Django tutorial, at module scope:
-
-.. sourcecode:: python
-
-  from django.contrib import admin
-  admin.autodiscover()
-
 Module-Scope Work Is Convenient (3)
 -----------------------------------
 
-``admin.autodiscover()`` would be better as something like:
+Instead of ``admin.autodiscover()`` getting called at module scope, it would
+be better if a pattern like this was used:
 
 .. sourcecode:: python
 
@@ -572,20 +527,16 @@ Module-Scope Work Is Convenient (3)
      config = DjangoConfiguration()
      config.admin.autodiscover('app1', 'app2')
 
-Or something like that.
+The state being mutated is not global.
 
-Module Scope Work Is Convenient (4)
------------------------------------
+.. Pyramid doesn't use or require the use of any globals.  Convenience
+   decorators don't actually change the definition of a function, class, or
+   method; they're just markers that can be picked up by a "scan".  A scan
+   registers a mutated version of the function/class/method in an
+   application-local registry.  If it's not scanned, it's not registered.
 
-- Pyramid doesn't use or require the use of any globals.  Convenience
-  decorators don't actually change the definition of a function, class, or
-  method; they're just markers that can be picked up by a "scan".
-
-- A scan registers a mutated version of the function/class/method in an
-  application-local registry.  If it's not scanned, it's not registered.
-
-- Can be configured entirely imperatively within the scope of an ``if __name__
-  == '__main__':`` block if so desired (no decorators required).
+.. Can be configured entirely imperatively within the scope of an ``if
+   __name__ == '__main__':`` block if so desired (no decorators required).
 
 Pluggable Apps / Reusable Apps
 ------------------------------
@@ -593,8 +544,12 @@ Pluggable Apps / Reusable Apps
 - Pluggable apps probably aren't really that pluggable, reusable apps
   probably aren't as reusable as you might like.
 
+..
+
 - IMO, even a framework as high-level as Django can't really offer such a
   feature without stretching the truth just a little bit.
+
+..
 
 - The only thing IMO that can truly offer pluggable apps: another app.  No
   general-purpose framework can do a great job here.  (Examples: Wordpress,
@@ -603,13 +558,18 @@ Pluggable Apps / Reusable Apps
 Rendering Is Meta-View
 ----------------------
 
-- ``render_to_response`` using template in view is not much fun to test.
+``render_to_response`` using template in view is not much fun to test.
 
-..
+.. sourcecode:: python
 
-- Returning a dict from a view callable is more fun to test.
+   def aview(request):
+       return render_to_response('my_template.html', {'a':1})
 
-Rendering Is Meta-View (Cont'd)
+Being able to return a dict (or another kind of object) from a view callable
+is easier to unit test and allows the view code to be reused for different
+renderings.
+
+Rendering Is Meta-View (2)
 -------------------------------
 
 A Pyramid view function that has configuration which names a Mako template
@@ -617,14 +577,32 @@ renderer:
 
 .. sourcecode:: python
 
-   @view_config(renderer='sometemplate.mak')
+   @view_config(route_name='aview', renderer='sometemplate.mak')
    def aview(request):
        return {'username':request.user.name}
 
-The ``.mak`` etension signifies it's a template renderer.  Different template
-renderers are registered for different template extensions.
+Rendering Is Meta-View (3)
+----------------------------
 
-Rendering Is Meta-View (Cont'd)
+Theoretical test code:
+
+.. sourcecode:: python
+
+   class Dummy(object): pass
+
+   def test_it():
+      from somewhere import aview
+      request = Dummy()
+      request.user = Dummy()
+      request.user.name = 'fred'
+      assert aview(request) == {'username':'fred'}
+
+.. The ``.mak`` extension signifies it's a template renderer.  Different
+   template renderers are registered for different template extensions.
+   Granted, doesnt test template rendering, but that's the job of functional
+   tests, not unit tests (unit tests can run much faster).
+
+Rendering Is Meta-View (4)
 -------------------------------
 
 The same view function can be used to render either a Mako template or as
@@ -632,8 +610,8 @@ JSON.
 
 .. sourcecode:: python
 
-   @view_config(renderer='sometemplate.mak')
-   @view_config(renderer='json')
+   @view_config(route_name='aview.html', renderer='sometemplate.mak')
+   @view_config(route_name='aview.json', renderer='json')
    def aview(request):
        return {'username':request.user.name}
 
@@ -644,17 +622,17 @@ Unit Tests
 ----------
 
 - Extensive use of Django test client for tests will cause test suite to run
-  more slowly than necessary.
+  more slowly than necessary.  "Integration" or "system" testing.
+
+..
 
 - A slow enough test suite won't be run before commit.
+
+..
 
 - Testers who don't understand any type of testing other than "system" or
   "integration" testing tend to bring poor testing practices to unrelated
   systems.
-
-- Using setuptools provides nice hooks for test discovery and execution.
-  Countervailing opinion that apps shouldn't be packaged as Python
-  distributions.  Requires beer.
 
 Static Files
 ------------
@@ -684,15 +662,10 @@ Community
 - Your success is our success.  I'm satisfied to have Pyramid in a fight for
   the #2 Python web framework spot forever.
 
-Collaboration (Low-Level)
--------------------------
-
-- Create adapter for WebOb or Werkzeug that implements the Django request
-  API?
-
 ..
 
-- Create an adapter for SQLAlchemy that implements the Django ORM API?
+- Create adapter for WebOb that implements the Django request API?  Create an
+  adapter for SQLAlchemy that implements the Django ORM API?
 
 Collaboration (Low-Level)
 -------------------------
@@ -704,8 +677,8 @@ Collaboration (Low-Level)
 
 - Might be better to try to use common non-domain-specific dependencies
   (e.g. setuptools, virtualenv, WSGI middleware, etc).  It would be a great
-  win to share documentation burden, even if we had to "fork" it for our
-  own contextual requirements.
+  win to share documentation burden, even if we had to fork it for our own
+  contextual requirements.
 
 Collaboration (High-Level)
 --------------------------
@@ -713,46 +686,38 @@ Collaboration (High-Level)
 - Django is limited by backwards compatibility concerns.  It's impractical to
   make large architectural changes now.  Your users would kill you.
 
-..
+.. If you used Pyramid, you'd get URL routing, internationalization, template
+   bindings, configuration extensibility, flexible view lookup and execution,
+   an event system, security, documentation, Python 3 compatibility, and
+   other things.
 
-- But I could imagine somebody from the Django community creating a
-  "Django-NG" or a Django-like system from whole cloth.  Or break Django
-  apart into something that isn't quite bw compatible.
+.. Pyramid community is very enthusiastic, friendly, helpful, and experienced.
 
-Collaboration (High-Level)
---------------------------
+- Take useful bits out of Django and turn them into independent subsystems
+  that share/require no global state. Create a bw compat "django" package
+  that re-gloms them all back together.
 
-- It might make sense to consider Pyramid or another smaller Python framework
-  as a base for such an effort.  If you used Pyramid, you'd get URL routing,
-  internationalization, template bindings, configuration extensibility,
-  flexible view lookup and execution, an event system, security,
-  documentation, Python 3 compatibility, and other things.
+.. Benefit: bw compat for those who need it, but better software for those
+   willing to use it.
 
-..
-
-- Pyramid community is very enthusiastic, friendly, helpful, and experienced.
+- Consider Pyramid or another smaller Python framework as a base for a bw
+  incompat Django offshoot.
 
 Challenges
 ----------
 
-- I challenge you to investigate how other frameworks work.
+- I challenge you to investigate how other frameworks work and steal
+  liberally.
+
+..
 
 - I challenge you to embrace existing Python packaging and distribution
   tools.
 
-Suggestions
------------
+..
 
-- Independent of any collaboration.
-
-- Take useful bits "out of Django" and turn them into independent subsystems
-  that share/require no global state.
-
-- When that's done, create a bw compat "django" package that regloms them all
-  together.
-
-- Benefit: bw compat for those who need it, but better software for those
-  willing to use the independent bits independently.
+- I challenge you to contribute to efforts that more directly benefit the
+  broader Python web community.
 
 Images
 ------
