@@ -6,6 +6,8 @@ About Django from A Pyramid Guy
 :Authors: Chris McDonough, Agendaless Consulting
 :Date: 9/6/2012 (DjangoCon 2012)
 
+http://plope.com/static/presentations/djangocon2012/
+
 ..  footer:: Chris McDonough, Agendaless Consulting
 
 .. terrified.  django is huge part of python community i've been completely
