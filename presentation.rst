@@ -701,7 +701,7 @@ Collaboration (High-Level)
    willing to use it.
 
 - Consider Pyramid or another smaller Python framework as a base for a bw
-  incompat Django offshoot.
+  incompat Django offshoot that ditches the glom.
 
 Challenges
 ----------
