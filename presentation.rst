@@ -4,7 +4,7 @@ About Django from A Pyramid Guy
 ===============================
 
 :Authors: Chris McDonough, Agendaless Consulting
-:Date: X/X/2012 (DjangoCon 2012)
+:Date: 9/6/2012 (DjangoCon 2012)
 
 ..  footer:: Chris McDonough, Agendaless Consulting
 
@@ -177,12 +177,15 @@ Django Terminology Does It Right
 Django Reality Does It Right
 ----------------------------
 
+- Can't argue with success.
+
 .. scores of important web sites running Django.  Very popular *and* it
    works.
 
-- Can't argue with success.
-
 - Scores of very successful sites built using Django.
+
+.. image:: toronto_skyscrapers.jpg
+   :align: center
 
 So WTF?
 -------
@@ -229,8 +232,12 @@ What Is Pyramid (Cont'd)
 
 - Built for extensibility and for composition of larger systems.
 
-.. Pyramid is maybe 10K LOC, of which maybe 4K is a configuration system that
-   allows for composing larger systems from smaller ones.
+..
+
+- Maybe 10K LOC, of which maybe 4K is a configuration system that allows for
+  composing larger systems from smaller ones.
+
+..
 
 - Something like Pyramid could be used to build something like Django.
 
@@ -261,10 +268,7 @@ Is Pyramid a Microframework?
   application in a single file.
 
 - Self-identifying microframeworks tend to suggest application development
-  patterns to its users which promote convenience over explicitness.  For
-  example, a "route weighting" scheme that guesses what route ordering should
-  be or route ordering defined by view function definition order.  Global
-  ``request`` object.  Global ``app`` object.
+  patterns to its users which promote convenience over explicitness.  
 
 - Pyramid for better or worse doesn't do this stuff, because it aims to be
   useful in larger systems where these patterns can lead to extensibility
@@ -272,6 +276,10 @@ Is Pyramid a Microframework?
 
 - In reality, "microframework" is a marketing term, not a technical term, so
   it kinda doesn't matter.
+
+.. examples: a "route weighting" scheme that guesses what route ordering
+   should be or route ordering defined by view function definition order.
+   Global ``request`` object.  Global ``app`` object.
 
 .. Django application is never going to be this small.  Seen people post blog
    entries about how you can use Django like this, but it's always just kinda
@@ -284,13 +292,25 @@ Scaffolding (Larger Apps)
 - Most people use a "scaffold" to generate a multifile project instead of
   starting one from scratch.
 
-- ``pcreate -s alchemy myproj`` or ``pcreate -s starter myproj``
+.. multifile project has a ``setup.py``, and contains a Python package.  It
+   depends on other distributions.
 
 - Generated code depends on some combination of Pyramid, Pyramid plugins, and
   other third-party libraries and frameworks.
 
+.. sourcecode:: text
+
+   pcreate -s alchemy myproject
+
+Scaffolding (Cont'd)
+--------------------
+
 - Scaffolds are where opinions live (e.g. SQLAlchemy + Mako vs. MongoDB +
   Jinja2).  They can be and are distributed independently via PyPI.
+
+.. It's turtles all the way down.  Pyramid is a Python distribution,
+   scaffolds can be distributed as distributions, a Pyramid application is a
+   Python distribution, etc.
 
 - ``pcreate`` generates code that you can use to generate a Python
   *distribution* (something you can credibly upload to PyPI).
@@ -300,11 +320,17 @@ Pyramid Friends
 
 - Colander/Deform: form handling.
 
+..
+
 - SQLAlchemy: SQL database connectivity and querying.
+
+..
 
 - Pyramid-specific add-ons like ``pyramid_debugtoolbar``, ``pyramid_mailer``,
   ``pyramid_zodbconn``, ``pyramid_socketio``, ``pyramid_mongodb``, and so
   forth.
+
+..
 
 - The typical Pyramid application makes use of some combination of add-ons.
 
@@ -323,13 +349,15 @@ use of a bindings package.
 Higher Level Frameworks
 -----------------------
 
-- ``ptah``
+.. sourcecode:: text
 
-- ``kotti``
+                    ptah
+ 
+                    kotti
 
-- ``poolyx``
+                    poolyx
 
-- ``substanced``
+                    substanced
 
 - These are more like Django than Pyramid is like Django.  They each have an
   admin interface and make choices about what type of persistence system will
@@ -340,8 +368,12 @@ Pyramid and Python 3
 
 - Pyramid's current release (1.3) supports Python 2.6, 2.7, 3.2, and 3.3.
 
+..
+
 - Most existing add-ons already ported.  When feasible, we port add-on
   dependencies too.
+
+..
 
 - We have a commitment to Python 3.  It involves lots of whining and
   bitching.
@@ -353,15 +385,17 @@ Pyramid Docs
   printed pages of narrative and API documentation, plus a few hundred pages
   of "cookbook" material.
 
-- Comprehensive but pretty dry.
+..
 
-- Some pain points are due to an audience mismatch; narrative documentation
-  assumes people know Python and the web.  They often need remedial help in
-  one or both, which the docs don't provide.
+- Some pain points are due to an audience mismatch.
+
+.. narrative documentation assumes people know Python and the web.  They
+   often need remedial help in one or both, which the docs don't provide.
 
 - But other pain points people experience when trying to learn Pyramid from
-  its docs is due to poorly documented dependencies (setuptools).  We need to
-  redocument subsystems "in context", for better or worse.  (kill me now?)
+  its docs is due to poorly documented dependencies (setuptools).
+
+.. we need to redocument subsystems "in context", for better or worse.
 
 I'm No Genius
 -------------
@@ -369,7 +403,7 @@ I'm No Genius
 - Pyramid does things wrong.  Many parts of Pyramid make me cringe.
   https://github.com/Pylons/pyramid/wiki/Mistakes
 
-- But I won't let mere ineptness stop me!  Here goes.  Gulp.
+- But I won't let mere ineptness stop me!  Gulp.
 
 .. much like Django core devs, we don't want to break people's working code.
    Frameworks are one-strike-and-your're-out.
@@ -398,9 +432,13 @@ Django Avoids Setuptools (2)
 - Django is itself one big "distribution" (in distutils terminology).  In
   other words, it "has no dependencies".
 
+..
+
 - But it indeed has parts that could be useful independent of the remainder.
   Breaking Django into smaller pieces might improve the quality of each of
   those pieces.  E.g. ``django-orm``, ``django-forms``.
+
+..
 
 - Big downside: documenting and supporting both in-context and out-of-context
   usage is a huge pain.  Very often just not worth it.
@@ -413,9 +451,14 @@ Django Avoids Setuptools (3)
   landscape and introduce conceptual load for new users.  More work for core
   developers.  Who will pay?
 
+Django Avoids Setuptools (4)
+-----------------------------
+
 - But ignoring Python packaging issues isn't helping to improve them.  Python
   packaging and distribution needs you very badly.  We all carry the support
   load of users new to Python who come in via Django.
+
+..
 
 - Fewer documentation issues to cope with by ignoring existing tools and
   conventions, but contributing to docs for setuptools and/or recommending
@@ -426,6 +469,8 @@ Subclassing Is Convenient
 
 - You don't have to explain a protocol (the protocol is Python).
 
+..
+
 - But offering extensibility via subclassing is often a poorer choice than
   offering extensibility via composition and very explicit interfaces.
 
@@ -433,10 +478,12 @@ Subclassing Is Convenient (Cont'd)
 ----------------------------------
 
 - Why?  People begin depending upon the implementation details of the classes
-  you tell them to subclass.  Unless you're extremely clear about what the
-  API of the superclass is, and the social contract to use nothing else but
-  the documented API exists, you'll be pressured into making retroactive
-  APIs.  Impossible to recover from without breaking b/w compat.
+  you tell them to subclass.
+
+.. Unless you're uncommonly clear about what the API of the superclass is,
+   and the social contract to use nothing else but the documented API exists,
+   you'll be pressured into making retroactive APIs.  Impossible to recover
+   from without breaking b/w compat.
 
 - Not uncommon to see a subclass of a subclass of a subclass of a subclass;
   figuring out how the thing works can be an exercise in pain and multiple
@@ -445,7 +492,7 @@ Subclassing Is Convenient (Cont'd)
 Pyramid "Class Based Views"
 ---------------------------
 
-.. sourcecode::
+.. sourcecode:: python
 
    from pyramid.views import view_config
 
@@ -458,14 +505,21 @@ Pyramid "Class Based Views"
            request.response.body = 'OK'
            return request.response
 
+Pyramid "Class-Based Views"
+----------------------------
+
 Framework effectively does when the route named ``fred`` is matched:
 
-.. sourcecode::
+.. sourcecode:: python
 
    response = Foo(request).thisnamedoesntmatter()
 
 No subclassing required (although it's of course possible). A "scan" picks up
 the view configuration statements, or same work can be done imperatively.
+
+.. Never actually had someone do the thing that Django CBV "as_view" is
+   engineered for (fear of someone creating an instance at module scope and
+   trying to use it as a view).
 
 Globals are Convenient
 ----------------------
@@ -494,22 +548,12 @@ Pyramid configuration phase:
 This is the only place where we deal with settings at a "global" level.
 Instead of importing them, elsewhere in the code people do e.g.:
 
-.. sourceode:: python
+.. sourcecode:: python
 
    def someview(request):
        mailhost = request.registry.settings['mailhost']
 
-Module-Scope Work Is Convenient
--------------------------------
-
-From Django tutorial, at module scope:
-
-.. sourcecode:: python
-
-  from django.contrib import admin
-  admin.autodiscover()
-
-Module-Scope Work Is Convenient (2)
+Module-Scope Work Is Convenient (1)
 -----------------------------------
 
 - These things can be done at module scope without concern:
@@ -525,8 +569,18 @@ Module-Scope Work Is Convenient (2)
   * Control flow which may handles conditionals for platform-specific 
     handling or failure handling of the above.
 
-- Everything else is at least suspect.  Test runners and other code scanners
-  can import with abandon, and side effects are often undesirable.
+.. Everything else is at least suspect.  Test runners and other code scanners
+   can import with abandon, and side effects are often undesirable.
+
+Module-Scope Work Is Convenient (2)
+-----------------------------------
+
+From Django tutorial, at module scope:
+
+.. sourcecode:: python
+
+  from django.contrib import admin
+  admin.autodiscover()
 
 Module-Scope Work Is Convenient (3)
 -----------------------------------
@@ -546,12 +600,13 @@ Module Scope Work Is Convenient (4)
 
 - Pyramid doesn't use or require the use of any globals.  Convenience
   decorators don't actually change the definition of a function, class, or
-  method; they're picked up by a "scan", which registers a mutated version of
-  the function/class/method in an application-local registry.  If it's not
-  scanned, it's not registered.
+  method; they're just markers that can be picked up by a "scan".
+
+- A scan registers a mutated version of the function/class/method in an
+  application-local registry.  If it's not scanned, it's not registered.
 
 - Can be configured entirely imperatively within the scope of an ``if __name__
-  == '__main__':`` block if so desired.
+  == '__main__':`` block if so desired (no decorators required).
 
 Pluggable Apps / Reusable Apps
 ------------------------------
@@ -571,6 +626,8 @@ Rendering Is Meta-View
 
 - ``render_to_response`` using template in view is not much fun to test.
 
+..
+
 - Returning a dict from a view callable is more fun to test.
 
 Rendering Is Meta-View (Cont'd)
@@ -579,7 +636,7 @@ Rendering Is Meta-View (Cont'd)
 A Pyramid view function that has configuration which names a Mako template
 renderer:
 
-.. sourcecode::
+.. sourcecode:: python
 
    @view_config(renderer='sometemplate.mak')
    def aview(request):
@@ -594,7 +651,7 @@ Rendering Is Meta-View (Cont'd)
 The same view function can be used to render either a Mako template or as
 JSON.
 
-.. sourcecode::
+.. sourcecode:: python
 
    @view_config(renderer='sometemplate.mak')
    @view_config(renderer='json')
@@ -626,15 +683,24 @@ Static Files
 - Python WSGI servers are getting better at serving static files.
   E.g. Gunicorn supports ``sendfile`` on UNIX.
 
+..
+
 - Might be time to reconsider offloading media to a dedicated non-Python
   server and make use of what's available in WSGI-land.
+
+End Of "But..."
+---------------
+
+- No more criticisms during this talk.
+
 
 Community
 ---------
 
-- Pyramid community is maybe 5%-10% the size of the Django community.
+- Pyramid community is maybe 5%-10% the size of the Django community and it's
+  growing.
 
-- It's growing.
+..
 
 - Your success is our success.  I'm satisfied to have Pyramid in a fight for
   the #2 Python web framework spot forever.
@@ -645,6 +711,8 @@ Collaboration (Low-Level)
 - Create adapter for WebOb or Werkzeug that implements the Django request
   API?
 
+..
+
 - Create an adapter for SQLAlchemy that implements the Django ORM API?
 
 Collaboration (Low-Level)
@@ -652,6 +720,8 @@ Collaboration (Low-Level)
 
 - These are likely losers.  They are "30 year plans".  Things change so fast.
   Who will pay immediately?  Who will benefit immediately?
+
+..
 
 - Might be better to try to use common non-domain-specific dependencies
   (e.g. setuptools, virtualenv, WSGI middleware, etc).  It would be a great
@@ -664,6 +734,8 @@ Collaboration (High-Level)
 - Django is limited by backwards compatibility concerns.  It's impractical to
   make large architectural changes now.  Your users would kill you.
 
+..
+
 - But I could imagine somebody from the Django community creating a
   "Django-NG" or a Django-like system from whole cloth.  Or break Django
   apart into something that isn't quite bw compatible.
@@ -671,11 +743,13 @@ Collaboration (High-Level)
 Collaboration (High-Level)
 --------------------------
 
-- It might make sense to consider Pyramid or another smaller framework as a
-  base for such an effort.  If you used Pyramid, you'd get URL routing,
+- It might make sense to consider Pyramid or another smaller Python framework
+  as a base for such an effort.  If you used Pyramid, you'd get URL routing,
   internationalization, template bindings, configuration extensibility,
   flexible view lookup and execution, an event system, security,
   documentation, Python 3 compatibility, and other things.
+
+..
 
 - Pyramid community is very enthusiastic, friendly, helpful, and experienced.
 
@@ -701,26 +775,6 @@ Suggestions
 - Benefit: bw compat for those who need it, but better software for those
   willing to use the independent bits independently.
 
-Unknowns
---------
-
-- Django Class-Based Views Might Not Do It Right.  ``as_view``.  Hmm.  All
-  views in Pyramid are potentially generic.  They have a context passed to
-  them.  Class-based views in Pyramid are not things handed down from "good
-  devs" to reuse, they're just normal things.
-
-- How does Django allow for configuration extensibility?  Conflict detection?
-
-- Event system
-
-- Alternate templating languages
-
-- Exception views
-
-- View predicates
-
-- Transaction management
-
 Images
 ------
 
@@ -730,28 +784,26 @@ Spellbook: http://alteredroute.blogspot.com/2008/10/potions-and-spells.html
 
 Computer nerd: http://noscope.com/photostream/various/super-computer-nerd.jpg/view
 
-Getting it right: http://sluggerotoole.com/2011/03/29/looking-back-at-the-dups-2007-manifesto/dup-getting-it-right-logo/
-
 Images (Cont'd)
 ---------------
+
+Getting it right: http://sluggerotoole.com/2011/03/29/looking-back-at-the-dups-2007-manifesto/dup-getting-it-right-logo/
 
 Urinals: http://www.businessblunder.com/2011/01/bad-architecture-examples/
 
 No controller: http://www.pwnordie.com/2009/12/30/2009-gaming-in-retrospect/project_natal_no_controller/
 
-No magic: http://gordonscruton.blogspot.com/2011/06/no-magic-please-part-1-learning.html
-
 Images (Cont'd)
 ---------------
+
+No magic: http://gordonscruton.blogspot.com/2011/06/no-magic-please-part-1-learning.html
 
 AS/400 Sign On: http://forums.speedguide.net/showthread.php?229405-AS400-question
 
 OMG WTF: http://www.graphicshunt.com/funny/images/omg_wtf-12875.htm
 
-Wiring: http://www.advrider.com/forums/showthread.php?t=415263&page=9
-
-
 Images (Cont'd)
 ---------------
 
-Mustard aisle: http://dangerousintersection.org/2008/02/18/experiencing-the-paradox-of-choice-at-the-local-schnucks-grocery-store/
+Toronto skyscrapers: http://www.primalpics.com/photos/010000/2200/002174_toronto_skyscrapers.htm
+
