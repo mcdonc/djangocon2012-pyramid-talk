@@ -153,27 +153,6 @@ Django Extensibility Does It Right
 
 - Encourages an environment of plugins at different levels.
 
-Django Terminology Does It Right
---------------------------------
-
-.. no idea who first came up with the idea that request/response web
-   frameworks have anything to do with the MVC pattern defined via smalltalk
-   in the 1980s.  Arguments about which web frameworks are "more MVC" than
-   others hilarious, completely miss the point.  Like arguing which sweater
-   is more OSHA compliant.  Django authors were smart enough to know how
-   crazy that was.
-
-- Arguments about how a web framework implements "MVC" are usually
-  distractions.
-
-- Views and models.  No "controller".
-
-.. Pyramid uses the same terminology as Django.  Zope happens to as well.
-
-.. image:: nocontroller.jpg
-   :align: center
-
-
 Django Reality Does It Right
 ----------------------------
 
@@ -199,7 +178,7 @@ So WTF?
    the less satisfied you are; ignorance would be bliss.  Remember I started
    with Zope, so it proves I had almost no taste.  But you get pickier as
    time goes on; you recontextualize features in the light of new knowledge
-   and things your framework did for you that you thought were so great at
+    and things your framework did for you that you thought were so great at
    the start sometimes start to look like liabilities.  You might be able to
    get things done more quickly if it did a little less, it did those fewer
    things better.  E.g. you might not want to use a relational database, or
@@ -791,19 +770,14 @@ Getting it right: http://sluggerotoole.com/2011/03/29/looking-back-at-the-dups-2
 
 Urinals: http://www.businessblunder.com/2011/01/bad-architecture-examples/
 
-No controller: http://www.pwnordie.com/2009/12/30/2009-gaming-in-retrospect/project_natal_no_controller/
+No magic: http://gordonscruton.blogspot.com/2011/06/no-magic-please-part-1-learning.html
 
 Images (Cont'd)
 ---------------
-
-No magic: http://gordonscruton.blogspot.com/2011/06/no-magic-please-part-1-learning.html
 
 AS/400 Sign On: http://forums.speedguide.net/showthread.php?229405-AS400-question
 
 OMG WTF: http://www.graphicshunt.com/funny/images/omg_wtf-12875.htm
-
-Images (Cont'd)
----------------
 
 Toronto skyscrapers: http://www.primalpics.com/photos/010000/2200/002174_toronto_skyscrapers.htm
 
