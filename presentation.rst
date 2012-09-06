@@ -234,24 +234,6 @@ What Is Pyramid (Cont'd)
 
 - Something like Pyramid could be used to build something like Django.
 
-How does Pyramid Relate to Pylons
----------------------------------
-
-.. image::  Diagram1.png
-   :align: center
-
-.. not really going to try to explain this because...
-
-Might As Well Be
-----------------
-
-.. image::  wiring.jpg
-   :align: center
-
-.. Pyramid is a Pylons project (branding).  There is about as much code in
-   "The Pylons Project" as exists in Django core.  ~ 250 contributors, oldest
-   code is about 6 years old.
-
 Small Pyramid Program
 ----------------------
 
@@ -275,13 +257,18 @@ Small Pyramid Program
 Is Pyramid a Microframework?
 ----------------------------
 
-- Pyramid is sort of microframework-like.  You can write a Pyramid
+- Pyramid is sort-of microframework-like.  You can write a Pyramid
   application in a single file.
 
 - Self-identifying microframeworks tend to suggest application development
-  patterns to its users which promote convenience over explicitness.  Pyramid
-  for better or worse does not do this, because it aims to be useful in
-  larger systems where these patterns can lead to extensibility problems.
+  patterns to its users which promote convenience over explicitness.  For
+  example, a "route weighting" scheme that guesses what route ordering should
+  be or route ordering defined by view function definition order.  Global
+  ``request`` object.  Global ``app`` object.
+
+- Pyramid for better or worse doesn't do this stuff, because it aims to be
+  useful in larger systems where these patterns can lead to extensibility
+  problems.
 
 - In reality, "microframework" is a marketing term, not a technical term, so
   it kinda doesn't matter.
@@ -303,9 +290,9 @@ Scaffolding (Larger Apps)
   other third-party libraries and frameworks.
 
 - Scaffolds are where opinions live (e.g. SQLAlchemy + Mako vs. MongoDB +
-  Jinja2).  They can and are distributed independently via PyPI.
+  Jinja2).  They can be and are distributed independently via PyPI.
 
-- ``pcreate`` generates code that you can use can generate a Python
+- ``pcreate`` generates code that you can use to generate a Python
   *distribution* (something you can credibly upload to PyPI).
 
 Pyramid Friends
@@ -331,6 +318,8 @@ use of a bindings package.
 
 - ``repoze.who`` + ``pyramid_who``.
 
+- ``pyramid_celery`` + ``Celery``
+
 Higher Level Frameworks
 -----------------------
 
@@ -342,7 +331,9 @@ Higher Level Frameworks
 
 - ``substanced``
 
-- These are more like Django than Pyramid is like Django.
+- These are more like Django than Pyramid is like Django.  They each have an
+  admin interface and make choices about what type of persistence system will
+  be best supported.
 
 Pyramid and Python 3
 --------------------
@@ -352,8 +343,25 @@ Pyramid and Python 3
 - Most existing add-ons already ported.  When feasible, we port add-on
   dependencies too.
 
-- We have a committment to Python 3.  It involves lots of whining and
+- We have a commitment to Python 3.  It involves lots of whining and
   bitching.
+
+Pyramid Docs
+------------
+
+- Culture of documentation (if it's not documented, it's broken).  ~800
+  printed pages of narrative and API documentation, plus a few hundred pages
+  of "cookbook" material.
+
+- Comprehensive but pretty dry.
+
+- Some pain points are due to an audience mismatch; narrative documentation
+  assumes people know Python and the web.  They often need remedial help in
+  one or both, which the docs don't provide.
+
+- But other pain points people experience when trying to learn Pyramid from
+  its docs is due to poorly documented dependencies (setuptools).  We need to
+  redocument subsystems "in context", for better or worse.  (kill me now?)
 
 I'm No Genius
 -------------
@@ -361,102 +369,57 @@ I'm No Genius
 - Pyramid does things wrong.  Many parts of Pyramid make me cringe.
   https://github.com/Pylons/pyramid/wiki/Mistakes
 
-.. much like you guys, we don't want to break people's working code.
+- But I won't let mere ineptness stop me!  Here goes.  Gulp.
+
+.. much like Django core devs, we don't want to break people's working code.
    Frameworks are one-strike-and-your're-out.
 
 .. image:: urinals.jpg
    :align: center
 
-Pyramid Docs
-------------
-
-- Culture of documentation (if it's not documented, it's broken).
-
-- Pyramid itself has ~800 printed pages of narrative and API documentation,
-  plus a few hundred pages of "cookbook" material.
-
-- Comprehensive but pretty dry.
-
-Docs Pain
----------
-
-- Many pain points are related to plain old bad docs: our fault.  Docs are at
-  least 10X harder to write well than the associated code and take much
-  longer.  Most coders hate writing docs.  I write lots of documentation but
-  it's often not very good.
-
-- But other pain points people experience when trying to learn Pyramid from
-  its docs is due to poorly documented dependencies (setuptools).  We need to
-  redocument subsystems "in context", for better or worse.  (kill me now?)
-
-- 2X documentation burden: document once in general package docs, document
-  again in bindings docs.  That's no fun.
-
-- But this will happen anyway if your code is popular (Celery).
-
-Docs Pain (cont'd)
-------------------
-
-- Some pain points are due to an audience mismatch; narrative documentation
-  assumes people know Python and the web.  They often need remedial help in
-  one or both, which the docs don't provide.
-
-- "Chipin" project raised ~$5K for documentation overhaul.  Trying to find a
-  new editor for that project now, if you know anyone.
-
-Packaging Is Like a Blast Shield
---------------------------------
-
-- A blast shield helps keep shrapnel out.
-
-- It can also help keep shrapnel *in*.
-
-.. image:: blastshield.jpg
-   :align: center
-
-Packaging / Blast Shield (Cont'd)
----------------------------------
-
-- Shrapnel tends to penetrate anything not within a blast shield.
-
-- Every piece of software eventually blows up.
-
-- The more blast shields you have, the more the damage is contained.
-
-Packaging / Blast Shield (Cont'd)
----------------------------------
-
-- But blast shields obscure the landscape.  More work required for users.
-
-- More packages add more documentation and conceptual overhead, and more
-  unwanted choice.
-
-.. image:: toomuchchoice.jpg
-   :align: center
-
 Django Avoids Setuptools
 ------------------------
 
-- Setup.py develop of django doesn't work.
+- Django lets people remain ignorant of distribution issues for maybe longer
+  than they should need to be.
 
-- Avoidance of setuptools also prevents use of console scripts
-  (e.g. django-admin).
+- Django is an outlier in Python-land convention wise: ``setup.py develop``
+  of django doesn't work (although ``pip install -e .`` does), avoidance of
+  setuptools also prevents use of console scripts (e.g. ``django-admin``),
+  ``setup.py test`` won't work.  Django "apps" are not just Python
+  distributions, they're a special Djangoey thing.
 
-- Django recreates some of the patterns that setuptools provides (i.e. test
-  discovery hooks).
-
-- Developers whom are ignorant of distribution issues are very confused when
-  inevitably faced with them.
+- Shared conventions are important because they spread the support burden
+  across a wider base.
 
 Django Avoids Setuptools (2)
 ----------------------------
 
-- Django's defacto avoidance of setuptools is understandable.  But it's not
-  helping to improve Python packaging.  Python packaging and distribution
-  needs you very badly.
+- Django is itself one big "distribution" (in distutils terminology).  In
+  other words, it "has no dependencies".
 
-- Fewer documentation issues to cope with, but contributing to docs for
-  setuptools would float all boats.
+- But it indeed has parts that could be useful independent of the remainder.
+  Breaking Django into smaller pieces might improve the quality of each of
+  those pieces.  E.g. ``django-orm``, ``django-forms``.
+
+- Big downside: documenting and supporting both in-context and out-of-context
+  usage is a huge pain.  Very often just not worth it.
+
+Django Avoids Setuptools (3)
+-----------------------------
+
+- Django's defacto avoidance of setuptools is understandable.  Packaging
+  Django into multiple, independently useful subpackages would obscure the
+  landscape and introduce conceptual load for new users.  More work for core
+  developers.  Who will pay?
+
+- But ignoring Python packaging issues isn't helping to improve them.  Python
+  packaging and distribution needs you very badly.  We all carry the support
+  load of users new to Python who come in via Django.
+
+- Fewer documentation issues to cope with by ignoring existing tools and
+  conventions, but contributing to docs for setuptools and/or recommending
+  setuptools and virtualenv to new users would float all boats.
 
 Subclassing Is Convenient
 -------------------------
@@ -476,8 +439,33 @@ Subclassing Is Convenient (Cont'd)
   APIs.  Impossible to recover from without breaking b/w compat.
 
 - Not uncommon to see a subclass of a subclass of a subclass of a subclass;
-  figuting out how the thing works can be an exercise in pain and multiple
+  figuring out how the thing works can be an exercise in pain and multiple
   editor windows.
+
+Pyramid "Class Based Views"
+---------------------------
+
+.. sourcecode::
+
+   from pyramid.views import view_config
+
+   class Foo(object):
+       def __init__(self, request):
+           self.request = request
+
+       @view_config(route_name='fred')
+       def thisnamedoesntmatter(self):
+           request.response.body = 'OK'
+           return request.response
+
+Framework effectively does when the route named ``fred`` is matched:
+
+.. sourcecode::
+
+   response = Foo(request).thisnamedoesntmatter()
+
+No subclassing required (although it's of course possible). A "scan" picks up
+the view configuration statements, or same work can be done imperatively.
 
 Globals are Convenient
 ----------------------
@@ -485,10 +473,31 @@ Globals are Convenient
 - You don't have to explain a protocol for obtaining a value (the protocol is
   ``import``).
 
-- But the development of circular imports is inevitable.
-
 - Global registries make it impossible to embed more than one application
   into the same Python process.
+
+- Development of circular imports is likely.  Depending on
+  ``DJANGO_SETTINGS_MODULE`` envvar necessitates putting settings import
+  at function scope.  This is a tip-off that settings aren't-really-global.
+
+Globals Are Convenient
+----------------------
+
+Pyramid configuration phase:
+
+.. sourcecode:: python
+
+   if __name__ == '__main__':
+       settings = {'mailhost':'localhost'}
+       config = Configurator(settings=settings)
+
+This is the only place where we deal with settings at a "global" level.
+Instead of importing them, elsewhere in the code people do e.g.:
+
+.. sourceode:: python
+
+   def someview(request):
+       mailhost = request.registry.settings['mailhost']
 
 Module-Scope Work Is Convenient
 -------------------------------
@@ -516,11 +525,33 @@ Module-Scope Work Is Convenient (2)
   * Control flow which may handles conditionals for platform-specific 
     handling or failure handling of the above.
 
-Module Scope Work Is Convenient (3)
------------------------------------
-
 - Everything else is at least suspect.  Test runners and other code scanners
   can import with abandon, and side effects are often undesirable.
+
+Module-Scope Work Is Convenient (3)
+-----------------------------------
+
+``admin.autodiscover()`` would be better as something like:
+
+.. sourcecode:: python
+
+  if __name__ == '__main__':
+     config = DjangoConfiguration()
+     config.admin.autodiscover('app1', 'app2')
+
+Or something like that.
+
+Module Scope Work Is Convenient (4)
+-----------------------------------
+
+- Pyramid doesn't use or require the use of any globals.  Convenience
+  decorators don't actually change the definition of a function, class, or
+  method; they're picked up by a "scan", which registers a mutated version of
+  the function/class/method in an application-local registry.  If it's not
+  scanned, it's not registered.
+
+- Can be configured entirely imperatively within the scope of an ``if __name__
+  == '__main__':`` block if so desired.
 
 Pluggable Apps / Reusable Apps
 ------------------------------
@@ -531,21 +562,52 @@ Pluggable Apps / Reusable Apps
 - IMO, even a framework as high-level as Django can't really offer such a
   feature without stretching the truth just a little bit.
 
-- The only thing that can truly offer pluggable apps: another app.  No
+- The only thing IMO that can truly offer pluggable apps: another app.  No
   general-purpose framework can do a great job here.  (Examples: Wordpress,
   Jenkins, Plone).
 
 Rendering Is Meta-View
 ----------------------
 
-- ``render_to_response`` using template in view is no fun to test.
+- ``render_to_response`` using template in view is not much fun to test.
 
 - Returning a dict from a view callable is more fun to test.
+
+Rendering Is Meta-View (Cont'd)
+-------------------------------
+
+A Pyramid view function that has configuration which names a Mako template
+renderer:
+
+.. sourcecode::
+
+   @view_config(renderer='sometemplate.mak')
+   def aview(request):
+       return {'username':request.user.name}
+
+The ``.mak`` etension signifies it's a template renderer.  Different template
+renderers are registered for different template extensions.
+
+Rendering Is Meta-View (Cont'd)
+-------------------------------
+
+The same view function can be used to render either a Mako template or as
+JSON.
+
+.. sourcecode::
+
+   @view_config(renderer='sometemplate.mak')
+   @view_config(renderer='json')
+   def aview(request):
+       return {'username':request.user.name}
+
+The JSON renderer is not a template renderer (it has no extension), but it's
+still a renderer.
 
 Unit Tests
 ----------
 
-- Exclusive use of Django test client for tests will cause test suite to run
+- Extensive use of Django test client for tests will cause test suite to run
   more slowly than necessary.
 
 - A slow enough test suite won't be run before commit.
@@ -555,6 +617,8 @@ Unit Tests
   systems.
 
 - Using setuptools provides nice hooks for test discovery and execution.
+  Countervailing opinion that apps shouldn't be packaged as Python
+  distributions.  Requires beer.
 
 Static Files
 ------------
@@ -615,25 +679,27 @@ Collaboration (High-Level)
 
 - Pyramid community is very enthusiastic, friendly, helpful, and experienced.
 
-Promoting Python
-----------------
-
-- I challenge you to not be complacent.
+Challenges
+----------
 
 - I challenge you to investigate how other frameworks work.
 
 - I challenge you to embrace existing Python packaging and distribution
   tools.
 
-Promoting Python
------------------
+Suggestions
+-----------
 
-- I challenge you to finish Python 3 porting quickly.  Commit to supporting
-  it in your add-ons and helping folks who have existing add-ons port.
+- Independent of any collaboration.
 
-- I challenge you to speak out when folks bash competitors.  Haters are
-  everywhere, and when someone bashes Pyramid, Flask, Bottle, or Zope, and
-  nobody defends against it, the hate will eventually come back to harm you.
+- Take useful bits "out of Django" and turn them into independent subsystems
+  that share/require no global state.
+
+- When that's done, create a bw compat "django" package that regloms them all
+  together.
+
+- Benefit: bw compat for those who need it, but better software for those
+  willing to use the independent bits independently.
 
 Unknowns
 --------
